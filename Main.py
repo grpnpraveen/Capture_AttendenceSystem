@@ -22,7 +22,7 @@ app = Flask(__name__, template_folder='./templates')
 # camera = cv2.VideoCapture(0)
 
 def gen_frames():  # generate frame by frame from camera
-    global capture,regisno
+    global capture,regisno,camera
     while True:
         success, frame = camera.read() 
         if success:   
