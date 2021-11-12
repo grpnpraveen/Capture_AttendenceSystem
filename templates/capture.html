@@ -26,7 +26,7 @@
             padding:1px;
             font-family: Shalimar;
             font-size: 2rem;
-            color:#ffff;
+            color:rgb(228, 166, 74);
         }
         form{
             display: flex;
@@ -66,7 +66,7 @@
                     <h3 style="font-family:courier;margin-left: 1%;    color:#ffff;">Instructions:</h3>
                     <ol style="font-family:courier;    color:#ffff;">
                     <li>Filling your registration number is neccessary.</li>
-                    <li>Make sure you have proper lighting in the captured picture.</li>
+                    <li>Make sure you have proper lighting while capturing the picture.</li>
                     </div>
                 <img id="videosrc" src="{{ url_for('video_feed') }}">
                 <form method="POST" action="{{ url_for('tasks') }}">
