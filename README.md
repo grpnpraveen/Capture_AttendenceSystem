@@ -1,9 +1,3 @@
-# Links
--> https://docs.google.com/document/d/1LluBqeiMbAX__ue6xLcnIlwFHEHcGIK7/edit?usp=sharing&ouid=107604067014780050571&rtpof=true&sd=true
-
-->https://www.youtube.com/watch?v=jl1VlWFXHS8
-
-->https://github.com/grpnpraveen/Capture_AttendenceSystem
 # Capture_AttendenceSystem
 Capture is an online attendence system which uses face recognition to recognize face and mark the attendance. This attendance is then stored in the MonogoDB DataBase.
 
@@ -40,7 +34,28 @@ Here are the few images that depict the flow of our project
 
 ## Faculty Interface
 
+This is the interface where faculty can login and generate code for taking attendance from students
+
 ![alt text](https://media.discordapp.net/attachments/893762120276140064/909072153763270727/unknown.png?width=1371&height=670)
+![alt text](https://media.discordapp.net/attachments/893762120276140064/909072235959046174/unknown.png?width=895&height=438)
+
+## Student Interface
+
+This is the interface where students can login and enter their code and mark their attendance
+
+![alt text](https://media.discordapp.net/attachments/893762120276140064/909072089565261854/unknown.png?width=895&height=442)
+
+## How attendance works
+
+
+![alt text](https://media.discordapp.net/attachments/893762120276140064/909072367840526336/unknown.png?width=895&height=446)
+![alt text](https://media.discordapp.net/attachments/893762120276140064/909072335661826048/unknown.png?width=895&height=438)
+
+
+
+
+
+
 
 
 
