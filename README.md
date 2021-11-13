@@ -1,7 +1,7 @@
 # Links
 
 ## Reva Hackathon Elevator Pitch_Team SepTeens_400
- -> https://docs.google.com/document/d/1LluBqeiMbAX__ue6xLcnIlwFHEHcGIK7/edit?usp=sharing&ouid=107604067014780050571&rtpof=true&sd=true
+ -> https://docs.google.com/document/d/1LluBqeiMbAX__ue6xLcnIlwFHEHcGIK7/edit?usp=sharing&ouid=113242897555002387619&rtpof=true&sd=true
 
 ## Project Demnonstration
  -> https://www.youtube.com/watch?v=jl1VlWFXHS8
