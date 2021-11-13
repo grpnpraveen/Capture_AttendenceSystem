@@ -9,6 +9,52 @@ import pickle
 with open('train_data.pkl', 'rb') as f:
     train_data = pickle.load(f)
 
+
+def prepare_image(image):
+    image = cv2.cvtColor(image,cv2.COLOR_BGR2RGB)
+    return image
+
+
+def compare_test_image(image,encoding):
+    image = prepare_image(image)
+    test_image_encoding = face_recognition.face_encodings(image)
+    #print(test_image_encoding)
+    if(len(test_image_encoding)==1):
+        result = face_recognition.compare_faces([test_image_encoding[0]],encoding)
+        #print(result)
+        if result[0]==True:
+            return 1
+        else:
+            return 0
+    elif(len(test_image_encoding)==0):
+        return 2
+    elif(len(test_image_encoding)>1):
+        return 3
+
+
+
+
+def find_compare(number,image):
+    check_number = 0
+
+    for values in train_data:
+        if number == values[1]:
+            check_number=1
+            check_image = compare_test_image(image,values[4])
+            if(check_image==0):
+                return("Number and Face Doesnt Match, Please try again")
+            elif(check_image==1):
+                return("Your attendance marked " + str(values[0]))
+            elif(check_image==2):
+                return("Cannot Find Face Properly, Please Try Again")
+            elif (check_image == 3):
+                return("Multiple Faces Detected, Please try again") #Handling Multiple faces can be added
+
+    if(check_number==0):
+        return("Registration number not found")
+
+
+
 global capture,regisno,pin,data
 capture=0
 regisno=None
@@ -30,17 +76,6 @@ def gen_frames():  # generate frame by frame from camera
     global capture,regisno,camera
     while True:
         success, frame = camera.read() 
-        try:
-            train_faceLoc = face_recognition.face_locations(frame)[0]
-            cv2.rectangle(frame,(train_faceLoc[3],train_faceLoc[0]),(train_faceLoc[1],train_faceLoc[2]),(255,255,0),2)
-            encoding = face_recognition.face_encodings(frame)[0]
-
-            for i in train_data:
-                result = face_recognition.compare_faces([i[4]],encoding)
-                if(result[0]==True):
-                    print("Face Matched with" + str(i[0]))
-        except:
-            pass
         if success:   
             if(capture):
                 capture=0
@@ -48,7 +83,17 @@ def gen_frames():  # generate frame by frame from camera
 
                 p = os.path.sep.join(['shots', "{}.png".format(str(pin)+"_"+str(regisno).lower())])
                 cv2.imwrite(p, frame)
-                camera.release()  
+                camera.release() 
+        try:
+            train_faceLoc = face_recognition.face_locations(frame)[0]
+            cv2.rectangle(frame,(train_faceLoc[3],train_faceLoc[0]),(train_faceLoc[1],train_faceLoc[2]),(255,255,0),2)
+            encoding = face_recognition.face_encodings(frame)[0]
+
+            output_for_user=find_compare(regisno,frame)
+            print(output_for_user)
+        except:
+            pass  # write face not recognised
+ 
             try:
                 ret, buffer = cv2.imencode('.jpg', cv2.flip(frame,1))
                 frame = buffer.tobytes()
@@ -101,6 +146,9 @@ def capture():
     return render_template('capture.html')
 @app.route('/camerarelease',methods=['POST','GET'])
 def camclose():
+    print("in cameraclose")
     camera.release()
+    status={"ok":"200"}
+    return jsonify(status)
 if (__name__=='__main__'):
     app.run()
