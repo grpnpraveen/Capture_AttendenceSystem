@@ -128,6 +128,7 @@ def index():
     global data
     return render_template('index.html',data=data)
 
+
 @app.route('/capture')
 def capture():
     return render_template('capture.html')
@@ -210,6 +211,7 @@ def gen_frames():  # generate frame by frame from camera
                 collection.insert_one(item)
             status_info=output_for_user
             print(output_for_user+ status_info)
+
             # status_info=str(output_for_user)
             # getinfo()
 
