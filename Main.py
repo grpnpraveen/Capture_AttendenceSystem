@@ -87,21 +87,19 @@ def gen_frames():  # generate frame by frame from camera
         try:
             train_faceLoc = face_recognition.face_locations(frame)[0]
             cv2.rectangle(frame,(train_faceLoc[3],train_faceLoc[0]),(train_faceLoc[1],train_faceLoc[2]),(255,255,0),2)
-            encoding = face_recognition.face_encodings(frame)[0]
-
             output_for_user=find_compare(regisno,frame)
             print(output_for_user)
         except:
             # print("Face not recognised properly!")
             pass  # write face not recognised
  
-            try:
-                ret, buffer = cv2.imencode('.jpg', cv2.flip(frame,1))
-                frame = buffer.tobytes()
-                yield (b'--frame\r\n'
-                       b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-            except Exception as e:
-                pass
+        try:
+            ret, buffer = cv2.imencode('.jpg', cv2.flip(frame,1))
+            frame = buffer.tobytes()
+            yield (b'--frame\r\n'
+                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+        except Exception as e:
+            pass
 
 @app.route('/video_feed')
 def video_feed():
