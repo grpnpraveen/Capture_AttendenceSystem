@@ -83,12 +83,12 @@
 
 
     var I=setInterval(update, 1000);
- 
+    var s="Z";
         function update()
         {
             // while(true)
             // {
-                var s="sishiere";
+          
                 fetch('/getinfo')
                 .then(data => {
                     return data.json();
@@ -103,9 +103,17 @@
                    
                     console.log(s);
 
-                    // if(s.charAt(0)==='Y'){
-                    //     clearInterval(I);
-                    // }
+                    if(s.charAt(0)==='Y'){
+                        clearInterval(I);
+                        // fetch('/redirect')
+                        //      .then(data => {
+                        //         console.log("BYE");
+                        //                       });
+                        window.location.replace("/");
+                    
+                   
+                   
+                    }
           
             }
         // }
@@ -129,24 +137,16 @@
         //         })
 
         // })
+ 
        addEventListener('beforeunload', async function (e) {
-                e.preventDefault();
-                
-             await fetch("/camerarelease", {
+            e.preventDefault();
 
-                method: "POST",
-
-                // Adding body or contents to send
-                body: JSON.stringify({
-                    "uniqcode":"code"
-                }),
-
-                // Adding headers to the request
-                headers: {
-                    "Content-type": "application/json; charset=UTF-8"
-                }
-                })
-                alert("hello");                // e.returnValue = '';
+            await fetch('/camerarelease')
+                .then(data => {
+                    return data.json();
+                    })
+                    .then((jsoninfo) => {})
+             e.returnValue = '';
             });
 
     </script>
