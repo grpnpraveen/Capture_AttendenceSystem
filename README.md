@@ -34,6 +34,8 @@ Here are the few images that depict the flow of our project
 
 ## Faculty Interface
 
+![alt text](https://media.discordapp.net/attachments/893762120276140064/909072153763270727/unknown.png?width=1371&height=670)
+
 
 
 
