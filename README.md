@@ -1,3 +1,9 @@
+# Links
+-> https://docs.google.com/document/d/1LluBqeiMbAX__ue6xLcnIlwFHEHcGIK7/edit?usp=sharing&ouid=107604067014780050571&rtpof=true&sd=true
+
+->https://www.youtube.com/watch?v=jl1VlWFXHS8
+
+->https://github.com/grpnpraveen/Capture_AttendenceSystem
 # Capture_AttendenceSystem
 Capture is an online attendence system which uses face recognition to recognize face and mark the attendance. This attendance is then stored in the MonogoDB DataBase.
 
