@@ -9,7 +9,7 @@ The solution should be in such a way that it should live to the standards of the
 ### Machine Learning: 
 The problem of attendance can be solved using current major technologies like ML. This project uses Machine Learning in order to identify the person in front of camera to mark the attendance.
 
-### Facial Recognition: 
+### <u>Facial Recognition:</u>
 Using Facial Recognition we identify the person in front of the camera and mark the attendance accordingly.
 
 ### Interface: 
