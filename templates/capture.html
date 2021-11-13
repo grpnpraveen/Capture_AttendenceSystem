@@ -80,6 +80,28 @@
     </div>
 
     <script>
+
+
+
+        function update()
+        {
+            // while(true)
+            // {
+                fetch('/getinfo')
+                .then(data => {
+                    return data.json();
+                    })
+                    .then(data => {
+                    console.log(data);
+                    document.getElementById("info").innerHTML=data.info;
+                    }).catch((err)=>{console.log(err)});
+                    console.log("hello");
+          
+            // }
+        }
+        // update();
+        setInterval(update() , 2000);
+        update()
         window.addEventListener('beforeunload', function (e) {
                 e.preventDefault();
                 fetch('/camerarelease')

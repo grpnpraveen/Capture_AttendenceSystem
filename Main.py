@@ -169,7 +169,14 @@ def getcode():
                 }
         collection.insert_one(item_1)
         return jsonify(status)
-    
+
+@app.route('/getinfo',methods=['POST','GET'])
+def getinfo(info):
+    if request.method == 'GET':
+         status={"info":"fjkjdfjbfbfs"}
+         print("there")
+         return jsonify(status)
+
 
 # camera = cv2.VideoCapture(0)
 def gen_frames():  # generate frame by frame from camera
@@ -197,8 +204,9 @@ def gen_frames():  # generate frame by frame from camera
                         "present":"1"
                 }
                 collection.insert_one(item)
-                
+
             print(output_for_user)
+            getinfo(str(output_for_user))
 
         except:
             # print("Face not recognised properly!")
