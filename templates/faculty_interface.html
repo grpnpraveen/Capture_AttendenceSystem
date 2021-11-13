@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+
+
+<head>
+    <style>
+
+         html, body{
+                padding: 0;
+                margin: 0;
+            }
+        
+            body{
+                background-image: url("/static/bg1.jpg");
+                /* background-size: cover; */
+            }
+
+            .selectcourse{
+
+                
+                background-color: white;
+                height: 600px;
+                margin-right: 5%;
+                margin-left: 5%;
+                border-radius: 20px;
+            }
+
+            .selecttab{
+                margin-left: 515px;
+                display: flex;
+            }
+
+            #recordattendancecss{
+
+            font-size: 20px; 
+            cursor: pointer;
+            color:blue;
+
+            }
+
+            #showattendancecss{
+
+                margin-left: 20px; 
+                font-size: 20px; 
+                cursor: pointer;
+                color: rgb(72, 72, 95);
+
+            }
+
+            #displayrecordattendance{
+                display: inline-block;
+                border-style:inset;
+                border-color: black;
+                margin-left: 45px;
+                width: 1300px;
+                height: 500px;
+                border-radius: 20px;
+            }
+
+            .formposition{
+                margin-left: 400px;
+                padding-top: 130px;
+                /* border: black; */
+                /* border-color: black; */
+                
+            }
+
+
+        .showcode{
+            margin-top: 40px;
+            margin-left: 400px;
+            display: flex;
+        }
+
+        .codegenerated{
+            background-color: black;
+            color: white;
+            padding: 10px;
+            font-size: 20px;
+        }
+
+        #actualcode{
+            background-color: white;
+            border-color: black;
+            border-style: double;
+            color: black;
+            padding: 10px;
+            font-size: 20px;
+        }
+        
+        .generatecodecss{
+            background-color: white;
+            color: black;
+            padding: 10px;
+            font-size: 20px;
+            margin-left: 150px;
+        }
+
+
+
+
+        #displayshowattendance{
+            display: none;
+                border-style:inset;
+                border-color: black;
+                margin-left: 45px;
+                width: 1300px;
+                height: 500px;
+                border-radius: 20px;
+        }
+
+        .formposition1{
+                margin-left: 80px;
+                padding-top: 170px;
+                /* border: black; */
+                /* border-color: black; */
+                
+            }
+
+        .showattendancecss{
+            background-color: white;
+            color: black;
+            padding: 10px;
+            font-size: 20px;
+            margin-left: 150px;
+        }
+
+        .showattendancepercentage{
+            margin-left: 100px;
+            width: 500px;
+            height: 500px;
+            background-color: black;
+            border-radius: 15px;
+        }
+        
+
+    </style>
+</head>
+
+
+
+<body>
+
+
+   
+
+
+        <h1 style="margin-left: 41%;">Hello Pradeep Arya!</h1>
+
+        <div class="selectcourse">
+
+            <div class="selecttab">
+                <p id= "recordattendancecss" onclick="recordattendance()">Record Attendance</p>
+                <p  id= "showattendancecss" onclick="showattendance()">Show Attendance</p>
+            </div>
+
+
+            <div id="displayrecordattendance">
+
+                <div class="formposition">
+                    <!-- <form action="/action_page.php" method="get"> -->
+                    <form>
+                        <input type="checkbox" name="subject1" value="sbj1" id="firstsubject">
+                        <label for="subject1" style="font-size: 25px; color: rgb(0, 0, 0);">CSE2 - </label>
+                        <label for="subject1" style="font-size: 25px; color: rgb(0, 0, 0);"> - Operating System - - </label>
+                        <label for="subject1" style="font-size: 25px; color: rgb(0, 0, 0);">1 : 00</label>
+                        <br>
+
+                        <input type="checkbox" name="subject2" value="sbj2" id="secondsubject">
+                        <label for="subject1" style="font-size: 25px; color: rgb(0, 0, 0);">CSE1 - </label>
+                        <label for="subject1" style="font-size: 25px; color: rgb(0, 0, 0);"> - Mobile Android Development - -  </label>
+                        <label for="subject1" style="font-size: 25px; color: rgb(0, 0, 0);">12 : 00</label>
+                        <br>
+
+                        <input type="checkbox" name="subject3" value="sbj3" id="thirdsubject">
+                        <label for="subject1" style="font-size: 25px; color: rgb(0, 0, 0);">CSE3 - </label>
+                        <label for="subject1" style="font-size: 25px; color: rgb(0, 0, 0);"> - Web Development - - </label>
+                        <label for="subject1" style="font-size: 25px; color: rgb(0, 0, 0);">3 : 00</label>
+                        <br>
+
+
+                        <br><br>
+
+                        <input type="button" onclick="generatecodeclicked()" value="Generate Code" class="generatecodecss">
+                    </form>
+                    
+                </div>
+                <br>
+                <hr>
+
+                    <div class="showcode">
+                        <p class="codegenerated">Code Generated </p>
+                        <p id="actualcode">Code Appears Here</p>
+                    </div>
+                
+
+            </div>
+
+
+
+
+            <div id="displayshowattendance">
+
+                <div class="formposition1">
+                    <form action="/action_page.php" method="get">
+                        <input type="checkbox" name="subject1" value="sbj1" >
+                        <label for="subject1" style="font-size: 25px; color: rgb(0, 0, 0);">CSE2 - </label>
+                        <label for="subject1" style="font-size: 25px; color: rgb(0, 0, 0);"> - Operating System - - </label>
+                        <label for="subject1" style="font-size: 25px; color: rgb(0, 0, 0);">1 : 00</label>
+                        <br>
+
+                        <input type="checkbox" name="subject2" value="sbj2" >
+                        <label for="subject1" style="font-size: 25px; color: rgb(0, 0, 0);">CSE1 - </label>
+                        <label for="subject1" style="font-size: 25px; color: rgb(0, 0, 0);"> - Mobile Android Development - -  </label>
+                        <label for="subject1" style="font-size: 25px; color: rgb(0, 0, 0);">12 : 00</label>
+                        <br>
+
+                        <input type="checkbox" name="subject3" value="sbj3" >
+                        <label for="subject1" style="font-size: 25px; color: rgb(0, 0, 0);">CSE3 - </label>
+                        <label for="subject1" style="font-size: 25px; color: rgb(0, 0, 0);"> - Web Development - - </label>
+                        <label for="subject1" style="font-size: 25px; color: rgb(0, 0, 0);">3 : 00</label>
+                        <br>
+
+
+                        <br><br>
+
+                        <input type="submit" value="Show Attendance" class="showattendancecss">
+                    </form>
+                    
+                </div>
+            
+                <div class="showattendancepercentage">
+
+                </div>
+
+                
+
+            </div>
+
+
+            
+
+            
+
+            
+        </div>
+
+
+        
+
+        <script>
+
+            
+            function recordattendance()
+            {
+                document.getElementById("showattendancecss").style.color = "rgb(72, 72, 95)" ;
+                document.getElementById("recordattendancecss").style.color = "blue" ;
+                document.getElementById("displayrecordattendance").style.display = 'inline-block';
+                document.getElementById("displayshowattendance").style.display = 'none';
+
+                
+
+            }
+
+            function showattendance()
+            {
+                document.getElementById("recordattendancecss").style.color = "rgb(72, 72, 95)" ;
+                document.getElementById("showattendancecss").style.color = "blue" ;
+                document.getElementById("displayrecordattendance").style.display = 'none';
+                document.getElementById("displayshowattendance").style.display = 'flex';
+                    
+            }
+
+            function generatecodeclicked()
+            {
+
+                let date = new Date().getDate()          // Get the day as a number (1-31)
+                let month = new Date().getMonth()         // Get the month (0-11)
+                let year = new Date().getFullYear()      // Get the four digit year (yyyy)
+                completedate = date+'' + (month+1)+ '' +year;
+
+
+                // let hours = new Date().getHours()         // Get the hour (0-23)
+                // let minutes = new Date().getMinutes()       // Get the minutes (0-59)
+                // completetime = hours+'' + minutes
+
+                let checked_count = 0;
+
+                const firstsubjectcheck = document.getElementById('firstsubject');
+                const secondsubjectcheck = document.getElementById('secondsubject');
+                const thirdsubjectcheck = document.getElementById('thirdsubject');
+
+
+                if(firstsubjectcheck.checked==true){
+                    checked_count += 1;
+                }
+                if(secondsubjectcheck.checked==true){
+                    checked_count += 1;
+                }
+                if(thirdsubjectcheck.checked==true){
+                    checked_count += 1;
+                }
+
+
+                if(checked_count==1)
+                {
+                    if(firstsubjectcheck.checked == true)
+                {
+                    code = "BML_PA_OS_";
+                    code = code + completedate + '_' + "1300_";
+
+                    x = Math.random();
+
+                    var code = code + Math.floor(x * 100000);
+                    data={"code":code};
+                    fetch("/getcode", {
+
+                        method: "POST",
+                        
+                        // Adding body or contents to send
+                        body: JSON.stringify({
+                            "uniqcode":code
+                        }),
+                        
+                        // Adding headers to the request
+                        headers: {
+                            "Content-type": "application/json; charset=UTF-8"
+                        }
+                    })
+                    document.getElementById("actualcode").innerHTML = code;
+
+                }
+                if(secondsubjectcheck.checked == true)
+                {
+                    code = "BML_PA_MAD_";
+                    code = code + completedate + '_' + "1200_";
+
+                    x = Math.random();
+
+                    code = code + Math.floor(x * 100000);
+                    fetch("/getcode", {
+
+                    method: "POST",
+
+                    // Adding body or contents to send
+                    body: JSON.stringify({
+                        "uniqcode":code
+                    }),
+
+                    // Adding headers to the request
+                    headers: {
+                        "Content-type": "application/json; charset=UTF-8"
+                    }
+                    })
+
+                    document.getElementById("actualcode").innerHTML = code;
+
+                }
+                if(thirdsubjectcheck.checked == true)
+                {
+                    code = "BML_PA_WD_";
+                    code = code + completedate + '_' + "1500_";
+
+                    x = Math.random();
+
+                    code = code + Math.floor(x * 100000);
+                    fetch("/getcode", {
+
+                    method: "POST",
+
+                    // Adding body or contents to send
+                    body: JSON.stringify({
+                        "uniqcode":code
+                    }),
+
+                    // Adding headers to the request
+                    headers: {
+                        "Content-type": "application/json; charset=UTF-8"
+                    }
+                    })
+
+                    document.getElementById("actualcode").innerHTML = code;
+
+                }
+                }
+                else if(checked_count==0){
+                    alert("Select atleast one value");
+                }
+                else {
+                    alert("Select only one value");
+                }
+
+
+
+
+                
+
+                // console.log(firstsubjectcheck.checked);
+            }
+
+            
+
+        </script>
+
+
+</body>
+
+
+</html>
