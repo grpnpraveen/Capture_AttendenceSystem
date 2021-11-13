@@ -14,7 +14,7 @@ regisno=None
 pin=None
 data=0
 uniqcode=None
-status_info=None
+status_info="Please wait while marking your Attendence."
 
 def get_database(DB):
     # Provide the mongodb atlas url to connect python to mongodb using pymongo
