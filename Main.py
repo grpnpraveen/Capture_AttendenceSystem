@@ -8,13 +8,13 @@ import pickle
 from werkzeug.wrappers import response
 from pymongo import MongoClient
 # import pymongo
-global capture,regisno,pin,data,uniqcode
+global capture,regisno,pin,data,uniqcode,status_info,camera
 capture=0
 regisno=None
 pin=None
 data=0
 uniqcode=None
-
+status_info=None
 
 def get_database(DB):
     # Provide the mongodb atlas url to connect python to mongodb using pymongo
@@ -134,10 +134,10 @@ def capture():
 @app.route('/camerarelease',methods=['POST','GET'])
 def camclose():
     global camera
-    print("in cameraclose")
     camera.release()
+    print("in cameraclose")
     status={"ok":"200"}
-    return jsonify(status)
+    return status
 
 @app.route('/login')
 def login():
@@ -171,16 +171,20 @@ def getcode():
         return jsonify(status)
 
 @app.route('/getinfo',methods=['POST','GET'])
-def getinfo(info):
-    if request.method == 'GET':
-         status={"info":"fjkjdfjbfbfs"}
-         print("there")
-         return jsonify(status)
+def getinfo():
+    
+    # if request.method == 'GET':
+    global status_info
+    status={}
+    print("there"+str(status_info))
+    x=str(status_info)
+    status["info"]=x
+    return jsonify(status)
 
 
 # camera = cv2.VideoCapture(0)
 def gen_frames():  # generate frame by frame from camera
-    global capture,regisno,camera
+    global capture,regisno,camera,status_info
     output_for_user=None
     while True:
         success, frame = camera.read() 
@@ -204,9 +208,10 @@ def gen_frames():  # generate frame by frame from camera
                         "present":"1"
                 }
                 collection.insert_one(item)
-
-            print(output_for_user)
-            getinfo(str(output_for_user))
+            status_info=output_for_user
+            print(output_for_user+ status_info)
+            # status_info=str(output_for_user)
+            # getinfo()
 
         except:
             # print("Face not recognised properly!")
