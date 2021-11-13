@@ -81,47 +81,6 @@ except OSError as error:
 app = Flask(__name__, template_folder='./templates')
 
 
-# camera = cv2.VideoCapture(0)
-
-def gen_frames():  # generate frame by frame from camera
-    global capture,regisno,camera
-    while True:
-        success, frame = camera.read() 
-        if success:   
-            if(capture):
-                capture=0
-                now = datetime.datetime.now()
-
-                p = os.path.sep.join(['shots', "{}.png".format(str(pin)+"_"+str(regisno).lower())])
-                cv2.imwrite(p, frame)
-                camera.release() 
-        try:
-            train_faceLoc = face_recognition.face_locations(frame)[0]
-            cv2.rectangle(frame,(train_faceLoc[3],train_faceLoc[0]),(train_faceLoc[1],train_faceLoc[2]),(255,255,0),2)
-            output_for_user=find_compare(regisno,frame)
-            if( output_for_user.find("Your attendance")):
-                dbname = get_database("BML")
-                collection=dbname[str(pin)]
-                item={
-                        "_id":regisno,
-                        "present":"1"
-                }
-                collection.insert_one(item)
-            print(output_for_user)
-            output_for_user=None
-            index()
-        except:
-            # print("Face not recognised properly!")
-            pass  # write face not recognised
- 
-        try:
-            ret, buffer = cv2.imencode('.jpg', cv2.flip(frame,1))
-            frame = buffer.tobytes()
-            yield (b'--frame\r\n'
-                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-        except Exception as e:
-            pass
-
 @app.route('/video_feed')
 def video_feed():
     return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
@@ -142,13 +101,21 @@ def checkpin():
     if request.method == 'POST':
         global pin,data,camera,regisno
         regisno=request.form.get('regis')
-        if request.form.get('pin') == '1234':
-            pin=request.form.get('pin')
-            camera = cv2.VideoCapture(0)
-            global capture
-            capture=0
-            data=0
-            return redirect(url_for('capture'))
+        user_entered_pin=request.form.get('pin')
+        splitted_user_entered_pin=user_entered_pin.split("_")
+        dbname = get_database("getdata")
+        collection=dbname[splitted_user_entered_pin[1]]
+        item_details=collection.find()
+        for item in item_details:
+            # This does not give a very readable output
+            if item["code"]==user_entered_pin:
+                print(item)
+                pin=request.form.get('pin')
+                camera = cv2.VideoCapture(0)
+                global capture
+                capture=0
+                data=0
+                return redirect(url_for('capture'))
         else:
             data=1
             return redirect(url_for('index'))
@@ -166,6 +133,7 @@ def capture():
     return render_template('capture.html')
 @app.route('/camerarelease',methods=['POST','GET'])
 def camclose():
+    global camera
     print("in cameraclose")
     camera.release()
     status={"ok":"200"}
@@ -202,6 +170,51 @@ def getcode():
         collection.insert_one(item_1)
         return jsonify(status)
     
+
+# camera = cv2.VideoCapture(0)
+def gen_frames():  # generate frame by frame from camera
+    global capture,regisno,camera
+    output_for_user=None
+    while True:
+        success, frame = camera.read() 
+        if success:   
+            if(capture):
+                capture=0
+                now = datetime.datetime.now()
+
+                p = os.path.sep.join(['shots', "{}.png".format(str(pin)+"_"+str(regisno).lower())])
+                cv2.imwrite(p, frame)
+                camera.release() 
+        try:
+            train_faceLoc = face_recognition.face_locations(frame)[0]
+            cv2.rectangle(frame,(train_faceLoc[3],train_faceLoc[0]),(train_faceLoc[1],train_faceLoc[2]),(255,255,0),2)
+            output_for_user=find_compare(regisno,frame)
+            if( output_for_user.find("Your attendance")):
+                dbname = get_database("BML")
+                collection=dbname[str(pin)]
+                item={
+                        "_id":regisno,
+                        "present":"1"
+                }
+                collection.insert_one(item)
+                
+            print(output_for_user)
+
+        except:
+            # print("Face not recognised properly!")
+            pass  # write face not recognised
+            
+        try:
+            ret, buffer = cv2.imencode('.jpg', cv2.flip(frame,1))
+            frame = buffer.tobytes()
+            yield (b'--frame\r\n'
+                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+        except Exception as e:
+            pass
+
+        
+        
+
 if (__name__=='__main__'):
     # dbname = get_database()
     app.run()
