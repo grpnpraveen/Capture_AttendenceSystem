@@ -5,7 +5,14 @@ import datetime, time
 import numpy as np
 import face_recognition
 import pickle
-
+# from pymongo import MongoClient
+# import pymongo
+# def get_database():
+#     # Provide the mongodb atlas url to connect python to mongodb using pymongo
+#     CONNECTION_STRING = "mongodb+srv://<username>:<password>@<cluster-name>.mongodb.net/myFirstDatabase"
+#     client = MongoClient(CONNECTION_STRING)
+#     return client['user_shopping_list']
+    
 with open('train_data.pkl', 'rb') as f:
     train_data = pickle.load(f)
 
@@ -150,4 +157,5 @@ def camclose():
     status={"ok":"200"}
     return jsonify(status)
 if (__name__=='__main__'):
+    # dbname = get_database()
     app.run()
