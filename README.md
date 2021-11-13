@@ -53,10 +53,16 @@ This is the interface where students can login and enter their code and mark the
 
 ## How attendance works
 
+This is how interface of attendance looks, Initially it prompts person to wait till attendance to be recorded. Later attendance will be marked and it will be shown and it exits the interface.
 
 ![alt text](https://media.discordapp.net/attachments/893762120276140064/909072367840526336/unknown.png?width=895&height=446)
 ![alt text](https://media.discordapp.net/attachments/893762120276140064/909072335661826048/unknown.png?width=895&height=438)
 
+
+## How data is stored
+
+Data is stored in database with unique registration ID and attendance against it.
+![alt text](https://user-images.githubusercontent.com/53993341/141646366-5c2cf531-5d3a-4767-97e2-004cdd38a83f.png)
 
 
 
