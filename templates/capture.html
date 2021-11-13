@@ -109,11 +109,10 @@
                         //      .then(data => {
                         //         console.log("BYE");
                         //                       });
+                        
+                        
 
-                        window.location.replace("/");
-                    
-                   
-                   
+                        setTimeout(() => {  window.location.replace("/") }, 5000);
                     }
           
             }
@@ -147,7 +146,7 @@
                     return data.json();
                     })
                     .then((jsoninfo) => {})
-             e.returnValue = '';
+            e.returnValue = '';
             });
 
     </script>
