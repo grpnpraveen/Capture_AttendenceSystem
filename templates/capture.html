@@ -71,7 +71,7 @@
                 <img id="videosrc" src="{{ url_for('video_feed') }}">
                 <form method="POST" action="{{ url_for('tasks') }}">
                     <!-- <input id="regno" type="text" placeholder="Registration number" name="regisno" required> -->
-                    <p id="info" style="color:#ffff;font-family: cursive;font-size: 1rem;width:110%">Please wait while marking your Attendence..</p>
+                    <p id="info" style="color:#ffff;font-family: cursive;font-size: 1rem;width:110%">Please wait while marking your Attendence.</p>
                     <input id="capturebtn" type="submit" value="Exit" name="click"/>
                 </form>
 
@@ -82,36 +82,71 @@
     <script>
 
 
-
+    var I=setInterval(update, 1000);
+ 
         function update()
         {
             // while(true)
             // {
+                var s="sishiere";
                 fetch('/getinfo')
                 .then(data => {
                     return data.json();
                     })
-                    .then(data => {
-                    console.log(data);
-                    document.getElementById("info").innerHTML=data.info;
+                    .then(jsoninfo => {
+                    console.log(jsoninfo);
+                    s=jsoninfo.info
+                    document.getElementById("info").innerHTML=s;
+                    console.log(typeof(s))
+                    // console.log(s.charAt(0));
                     }).catch((err)=>{console.log(err)});
-                    console.log("hello");
+                   
+                    console.log(s);
+
+                    // if(s.charAt(0)==='Y'){
+                    //     clearInterval(I);
+                    // }
           
-            // }
-        }
+            }
+        // }
         // update();
-        setInterval(update() , 2000);
-        update()
-        window.addEventListener('beforeunload', function (e) {
+        // document. addEventListener('visibilitychange', function(e) {
+
+        //     e.preventDefault();
+        //      fetch("/camerarelease", {
+
+        //         method: "POST",
+
+        //         // Adding body or contents to send
+        //         body: JSON.stringify({
+        //             "uniqcode":"code"
+        //         }),
+
+        //         // Adding headers to the request
+        //         headers: {
+        //             "Content-type": "application/json; charset=UTF-8"
+        //         }
+        //         })
+
+        // })
+       addEventListener('beforeunload', async function (e) {
                 e.preventDefault();
-                fetch('/camerarelease')
-                        .then(function (response) {
-                            return response.json()
-                            }).then(function(text)
-                            {
-                                console.log(text.ok);
-                            })
-                // e.returnValue = '';
+                
+             await fetch("/camerarelease", {
+
+                method: "POST",
+
+                // Adding body or contents to send
+                body: JSON.stringify({
+                    "uniqcode":"code"
+                }),
+
+                // Adding headers to the request
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                }
+                })
+                alert("hello");                // e.returnValue = '';
             });
 
     </script>
