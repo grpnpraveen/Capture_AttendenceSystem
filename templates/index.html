@@ -41,7 +41,17 @@
            padding:10px;
            font-size: 1rem;
         }
+        #textinput2{
+            margin-top: 2%;
+           padding:10px;
+           font-size: 1rem;
+        }
         #textinput::placeholder{
+            font-size: 1rem;
+            font-weight: bolder;
+        }
+        
+        #textinput2::placeholder{
             font-size: 1rem;
             font-weight: bolder;
         }
@@ -52,6 +62,9 @@
             border-radius: 4px;
             background-color: #2f2f2f;
             font-weight: bolder;
+        }
+        #submitbtn:hover{
+            background-color: #575757;
         }
 
     </style>
@@ -65,12 +78,13 @@
         <form id="formsheet" method="POST" action="{{ url_for('checkpin') }}">
 
                 <input id="textinput" type="text" placeholder="Class Pin" name="pin">
+                <input id="textinput2" type="text" placeholder="Registration number" name="regis" required>
                 <button id="submitbtn" type='submit'>Enter</button>
     
         </form>
      </div>
 
-     <div class="info" style="text-align: center;word-wrap: break-word;width:22%;margin-left: 39%;margin-top: 170px;">
+     <div class="info" style="text-align: center;word-wrap: break-word;width:22%;margin-left: 39%;margin-top: 150px;">
          <p style="color: aliceblue;font-weight: bold;font-family:'Courier New', Courier, monospace;">Best online attendence system which uses facial recognition with machine learning.</p>
      </div>
 

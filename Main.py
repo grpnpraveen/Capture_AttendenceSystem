@@ -3,6 +3,11 @@ from flask import Flask,render_template,Response,request,redirect,url_for,jsonif
 import os
 import datetime, time
 import numpy as np
+import face_recognition
+import pickle
+
+with open('train_data.pkl', 'rb') as f:
+    train_data = pickle.load(f)
 
 global capture,regisno,pin,data
 capture=0
@@ -25,6 +30,17 @@ def gen_frames():  # generate frame by frame from camera
     global capture,regisno,camera
     while True:
         success, frame = camera.read() 
+        try:
+            train_faceLoc = face_recognition.face_locations(frame)[0]
+            cv2.rectangle(frame,(train_faceLoc[3],train_faceLoc[0]),(train_faceLoc[1],train_faceLoc[2]),(255,255,0),2)
+            encoding = face_recognition.face_encodings(frame)[0]
+
+            for i in train_data:
+                result = face_recognition.compare_faces([i[4]],encoding)
+                if(result[0]==True):
+                    print("Face Matched with" + str(i[0]))
+        except:
+            pass
         if success:   
             if(capture):
                 capture=0
@@ -52,13 +68,15 @@ def tasks():
         if request.form.get('click') == 'Capture':
             global capture,regisno
             capture=1
-            regisno=request.form.get('regisno')
+            # regisno=request.form.get('regisno')
+            
     return redirect(url_for('index'))
 
 @app.route('/checkpin',methods=['POST','GET'])
 def checkpin():
     if request.method == 'POST':
-        global pin,data,camera
+        global pin,data,camera,regisno
+        regisno=request.form.get('regis')
         if request.form.get('pin') == '1234':
             pin=request.form.get('pin')
             camera = cv2.VideoCapture(0)
