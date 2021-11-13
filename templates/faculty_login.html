@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+
+<head>
+    <style>
+
+         html, body{
+                padding: 0;
+                margin: 0;
+            }
+        
+            body{
+                background-image: url("/static/bg1.jpg");
+                background-size: cover;
+            }
+
+            input[type=text], input[type=password] {
+            width: 30%;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            }
+
+            button {
+            background-color: white;
+            color: black;
+            font-weight: bolder;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 10%;
+            }
+
+            
+            .container {
+
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            margin-left: 40%;
+            margin-top : 220px;
+            
+
+            }
+
+
+            .loginbutton{
+                margin-left: 85px;
+            }
+    </style>
+</head>
+
+
+
+<body>
+
+
+
+
+
+<form action="{{ url_for('logindirect') }}" method="post">
+
+
+    <div class="container">
+
+      <h1 style="margin-left: 35px; color: white;">Faculty Login</h1>
+
+      <input type="text" placeholder="Enter Username" name="uname" required>
+  
+      <input type="password" placeholder="Enter Password" name="psw" required>
+          
+      <button type="submit" class="loginbutton">Login</button>
+    </div>
+  
+  </form>
+
+</body>
+
+
+</html>
