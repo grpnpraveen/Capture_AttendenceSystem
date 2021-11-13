@@ -79,14 +79,14 @@
     </div>
 
     <script>
-        // window.addEventListener('beforeunload', function (e) {
-        //         e.preventDefault();
-        //         fetch('/camerarelease')
-        //                 .then(function (response) {
+        window.addEventListener('beforeunload', function (e) {
+                e.preventDefault();
+                fetch('/camerarelease')
+                        .then(function (response) {
                           
-        //                     })
-        //         e.returnValue = '';
-        //     });
+                            })
+                // e.returnValue = '';
+            });
 
     </script>
 </body>
