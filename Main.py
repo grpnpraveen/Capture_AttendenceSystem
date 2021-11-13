@@ -92,6 +92,7 @@ def gen_frames():  # generate frame by frame from camera
             output_for_user=find_compare(regisno,frame)
             print(output_for_user)
         except:
+            print("Face not recognised properly!")
             pass  # write face not recognised
  
             try:
