@@ -27,3 +27,16 @@ Flask server to run the python code in the backend.
 HTML, Js for making interface
 OpenCV for Facial Recognition.
 MongoDB for Storing the attendance Data
+
+
+# Flow
+Here are the few images that depict the flow of our project
+
+## Faculty Interface
+
+
+
+
+
+
+
