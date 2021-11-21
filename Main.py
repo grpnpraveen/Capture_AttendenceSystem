@@ -220,7 +220,6 @@ def gen_frames():  # generate frame by frame from camera
                         "present":"1"
                 }
                 collection.insert_one(item)
-            
             # print("####"+output_for_user+ status_info)
 
                 # status_info=str(output_for_user)
