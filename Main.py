@@ -31,7 +31,6 @@ def prepare_image(image):
     image = cv2.cvtColor(image,cv2.COLOR_BGR2RGB)
     return image
 
-
 def compare_test_image(image,encoding):
     image = prepare_image(image)
     test_image_encoding = face_recognition.face_encodings(image)
