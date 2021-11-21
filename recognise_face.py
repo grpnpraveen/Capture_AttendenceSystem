@@ -1,6 +1,7 @@
 
 import face_recognition
 import cv2
+import pickle
 
 
 def prepare_image(image):
@@ -13,7 +14,7 @@ def compare_test_image(image,encoding):
     test_image_encoding = face_recognition.face_encodings(image)
     #print(test_image_encoding)
     if(len(test_image_encoding)==1):
-        result = face_recognition.compare_faces([test_image_encoding[0]],encoding)
+        result = face_recognition.compare_faces([test_image_encoding[0]],encoding,tolerance=0.6)
         #print(result)
         if result[0]==True:
             return 1
@@ -25,6 +26,8 @@ def compare_test_image(image,encoding):
         return 3
 
 
+with open('train_data2.pkl', 'rb') as f:
+    train_data = pickle.load(f)
 
 
 def find_compare(number,image):
@@ -51,11 +54,22 @@ def find_compare(number,image):
 
 
 
-image = cv2.imread("Test/harshith_img.jpg") #input Image
+# image = cv2.imread("Training Images/amir_03.jpg") #input Image
+
+
+
 
 number = input("Enter your Number : ")
+cap = cv2.VideoCapture(0)
 
-find_compare(number,image)
+while True:
+    success,img = cap.read()
+    a = find_compare(number,img)
+
+    cv2.imshow("Image",img)
+    cv2.waitKey(1)
+
+    print(a)
 
 
 #Show Image

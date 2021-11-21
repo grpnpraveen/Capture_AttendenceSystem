@@ -23,7 +23,7 @@ def get_database(DB):
     client = MongoClient(CONNECTION_STRING)
     return client[DB]
     
-with open('train_data.pkl', 'rb') as f:
+with open('train_data2.pkl', 'rb') as f:
     train_data = pickle.load(f)
 
 
@@ -31,13 +31,12 @@ def prepare_image(image):
     image = cv2.cvtColor(image,cv2.COLOR_BGR2RGB)
     return image
 
-
 def compare_test_image(image,encoding):
     image = prepare_image(image)
     test_image_encoding = face_recognition.face_encodings(image)
     #print(test_image_encoding)
     if(len(test_image_encoding)==1):
-        result = face_recognition.compare_faces([test_image_encoding[0]],encoding)
+        result = face_recognition.compare_faces([test_image_encoding[0]],encoding,tolerance=0.55)
         #print(result)
         if result[0]==True:
             return 1
@@ -59,16 +58,16 @@ def find_compare(number,image):
             check_number=1
             check_image = compare_test_image(image,values[4])
             if(check_image==0):
-                return("Number and Face Doesnt Match, Please try again")
+                print("Number and Face Doesnt Match, Please try again")
             elif(check_image==1):
-                return("Your attendance marked " + str(values[0]))
+                print("Your attendance marked " + str(values[0]))
             elif(check_image==2):
-                return("Cannot Find Face Properly, Please Try Again")
+                print("Cannot Find Face Properly, Please Try Again")
             elif (check_image == 3):
-                return("Multiple Faces Detected, Please try again") #Handling Multiple faces can be added
+                print("Multiple Faces Detected, Please try again") #Handling Multiple faces can be added
 
     if(check_number==0):
-        return("Registration number not found")
+        print("Number not found")
 
 
 #make shots directory to save pics
