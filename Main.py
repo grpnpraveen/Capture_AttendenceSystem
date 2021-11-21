@@ -8,6 +8,7 @@ import face_recognition
 import pickle
 from werkzeug.wrappers import response
 from pymongo import MongoClient
+from the_face_reco import the_face_recognition
 # import pymongo
 global capture,regisno,pin,data,uniqcode,status_info,camera
 capture=0
@@ -16,6 +17,7 @@ pin=None
 data=0
 uniqcode=None
 status_info="Please wait while marking your Attendence."
+train_data=None
 
 def get_database(DB):
     # Provide the mongodb atlas url to connect python to mongodb using pymongo
@@ -24,7 +26,7 @@ def get_database(DB):
     client = MongoClient(CONNECTION_STRING)
     return client[DB]
     
-with open('train_data2.pkl', 'rb') as f:
+with open('train_data.pkl', 'rb') as f:
     train_data = pickle.load(f)
 
 
@@ -182,7 +184,7 @@ def getinfo():
     # if request.method == 'GET':
     global status_info
     status={}
-    print("there"+str(status_info))
+    # print("there"+str(status_info))
     x=str(status_info)
     status["info"]=x
     return jsonify(status)
@@ -203,38 +205,41 @@ def gen_frames():  # generate frame by frame from camera
                 cv2.imwrite(p, frame)
                 camera.release() 
         try:
-            if(frame):
-                train_faceLoc = face_recognition.face_locations(frame)[0]
-                cv2.rectangle(frame,(train_faceLoc[3],train_faceLoc[0]),(train_faceLoc[1],train_faceLoc[2]),(255,255,0),2)
-                output_for_user=find_compare(regisno,frame)
-                if( output_for_user.find("Your attendance")):
-                    dbname = get_database("BML")
-                    collection=dbname[str(pin)]
-                    item={
-                            "_id":regisno,
-                            "present":"1"
-                    }
-                    collection.insert_one(item)
-                # status_info=output_for_user
-                # print(output_for_user+ status_info)
+            # if(frame):
+            # train_faceLoc = face_recognition.face_locations(frame)[0]
+            # cv2.rectangle(frame,(train_faceLoc[3],train_faceLoc[0]),(train_faceLoc[1],train_faceLoc[2]),(255,255,0),2)
+            # output_for_user=find_compare(regisno,frame)
+            output_for_user=the_face_recognition(frame,regisno,train_data)
+            status_info=output_for_user
+            print("####"+output_for_user+ status_info)
+            if( output_for_user.find("Your attendance")):
+                dbname = get_database("BML")
+                collection=dbname[str(pin)]
+                item={
+                        "_id":regisno,
+                        "present":"1"
+                }
+                collection.insert_one(item)
+            
+            # print("####"+output_for_user+ status_info)
 
                 # status_info=str(output_for_user)
                 # getinfo()
-                frame=None
-                time.sleep(10)
+                # frame=None
+                # time.sleep(10)
                 
 
         except:
             # print("Face not recognised properly!")
             pass  # write face not recognised
             
-        # try:
-        #     ret, buffer = cv2.imencode('.jpg', cv2.flip(frame,1))
-        #     frame = buffer.tobytes()
-        #     yield (b'--frame\r\n'
-        #             b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-        # except Exception as e:
-        #     pass
+        try:
+            ret, buffer = cv2.imencode('.jpg', cv2.flip(frame,1))
+            frame = buffer.tobytes()
+            yield (b'--frame\r\n'
+                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+        except Exception as e:
+            pass
 
         
         

@@ -83,12 +83,12 @@
 
 
     var I=setInterval(update, 500);
-   
+    var s="Z";
         function update()
         {
             // while(true)
             // {
-                var s="Z";
+               
                 fetch('/getinfo')
                 .then(data => {
                     return data.json();
