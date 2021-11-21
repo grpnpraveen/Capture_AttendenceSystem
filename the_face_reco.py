@@ -28,11 +28,11 @@ def compare_test_image(image,encoding):
 
 
 def the_face_recognition(img,regno,train_data):
-    print("the_face_recognition is called....")
+    # print("the_face_recognition is called....")
     img = cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
 
     check_number = 0
-    print("after check number")
+    # print("after check number")
     for values in train_data:
         if regno == values[1]:
             check_number=1

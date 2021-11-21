@@ -157,8 +157,17 @@ def interface():
 
 @app.route('/logindirect',methods=['POST','GET'])
 def logindirect():
+    login_status=0
     if request.method == 'POST':
-        return redirect(url_for('interface'))
+        user_name = request.form["uname"]
+        password = request.form["psw"]
+
+        if(user_name=="pradeep123" and password=="123"):
+            return redirect(url_for('interface'))
+
+        else:
+            login_status=1
+            return render_template("faculty_login.html",login_status=login_status)
 
 @app.route('/getcode',methods=['POST','GET'])
 def getcode():
@@ -206,12 +215,19 @@ def gen_frames():  # generate frame by frame from camera
                 camera.release() 
         try:
             # if(frame):
-            # train_faceLoc = face_recognition.face_locations(frame)[0]
-            # cv2.rectangle(frame,(train_faceLoc[3],train_faceLoc[0]),(train_faceLoc[1],train_faceLoc[2]),(255,255,0),2)
+            try:
+                train_faceLoc = face_recognition.face_locations(frame)[0]
+                cv2.rectangle(frame,(train_faceLoc[3],train_faceLoc[0]),(train_faceLoc[1],train_faceLoc[2]),(255,255,0),2)
+            except:
+                pass
             # output_for_user=find_compare(regisno,frame)
+
             output_for_user=the_face_recognition(frame,regisno,train_data)
+            
+            
             status_info=output_for_user
             print("####"+output_for_user+ status_info)
+
             if( output_for_user.find("Your attendance")):
                 dbname = get_database("BML")
                 collection=dbname[str(pin)]
@@ -220,6 +236,11 @@ def gen_frames():  # generate frame by frame from camera
                         "present":"1"
                 }
                 collection.insert_one(item)
+                
+
+            
+
+                # print(regisno)
             # print("####"+output_for_user+ status_info)
 
                 # status_info=str(output_for_user)
