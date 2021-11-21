@@ -212,7 +212,7 @@ def gen_frames():  # generate frame by frame from camera
             output_for_user=the_face_recognition(frame,regisno,train_data)
             status_info=output_for_user
             print("####"+output_for_user+ status_info)
-            if( output_for_user.find("Your attendance")):
+            if( output_for_user.find("Your attendance")!=-1):
                 dbname = get_database("BML")
                 collection=dbname[str(pin)]
                 item={
@@ -226,7 +226,6 @@ def gen_frames():  # generate frame by frame from camera
                 # getinfo()
                 # frame=None
                 # time.sleep(10)
-                
 
         except:
             # print("Face not recognised properly!")
