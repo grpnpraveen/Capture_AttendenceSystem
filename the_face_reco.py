@@ -38,17 +38,17 @@ def the_face_recognition(img,regno,train_data):
             check_number=1
             check_image = compare_test_image(img,values[4])
             if(check_image==0):
-                print("Number and Face Doesnt Match, Please try again")
-                return("Number and Face Doesnt Match, Please try again")
+                print("Number and Face Doesnt Match, Please exit try again")
+                return("Number and Face Doesnt Match, Please exit try again")
             elif(check_image==1):
                 print("Your attendance marked " + str(values[0]))
                 return("Your attendance marked " + str(values[0]))
             elif(check_image==2):
-                print("Cannot Find Face Properly, Please Try Again")
-                return("Cannot Find Face Properly, Please Try Again")
+                print("Cannot Find Face Properly, Please exit Try Again")
+                return("Cannot Find Face Properly, Please exit Try Again")
             elif (check_image == 3):
-                print("Multiple Faces Detected, Please try again") #Handling Multiple faces can be added
-                return("Multiple Faces Detected, Please try again") #Handling Multiple faces can be added
+                print("Multiple Faces Detected, Please exit try again") #Handling Multiple faces can be added
+                return("Multiple Faces Detected, Please exit try again") #Handling Multiple faces can be added
     print("afetr loop")
     if(check_number==0):
         print("Number not found")
