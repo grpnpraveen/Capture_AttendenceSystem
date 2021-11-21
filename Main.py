@@ -23,7 +23,7 @@ def get_database(DB):
     client = MongoClient(CONNECTION_STRING)
     return client[DB]
     
-with open('train_data.pkl', 'rb') as f:
+with open('train_data2.pkl', 'rb') as f:
     train_data = pickle.load(f)
 
 
@@ -37,7 +37,7 @@ def compare_test_image(image,encoding):
     test_image_encoding = face_recognition.face_encodings(image)
     #print(test_image_encoding)
     if(len(test_image_encoding)==1):
-        result = face_recognition.compare_faces([test_image_encoding[0]],encoding)
+        result = face_recognition.compare_faces([test_image_encoding[0]],encoding,tolerance=0.5)
         #print(result)
         if result[0]==True:
             return 1
@@ -59,15 +59,20 @@ def find_compare(number,image):
             check_number=1
             check_image = compare_test_image(image,values[4])
             if(check_image==0):
+                print("Number and Face Doesnt Match, Please try again")
                 return("Number and Face Doesnt Match, Please try again")
             elif(check_image==1):
+                print("Your attendance marked " + str(values[0]))
                 return("Your attendance marked " + str(values[0]))
             elif(check_image==2):
+                print("Cannot Find Face Properly, Please Try Again")
                 return("Cannot Find Face Properly, Please Try Again")
             elif (check_image == 3):
+                print("Multiple Faces Detected, Please try again")
                 return("Multiple Faces Detected, Please try again") #Handling Multiple faces can be added
 
     if(check_number==0):
+        print("Registration number not found")
         return("Registration number not found")
 
 
@@ -198,34 +203,36 @@ def gen_frames():  # generate frame by frame from camera
                 cv2.imwrite(p, frame)
                 camera.release() 
         try:
-            train_faceLoc = face_recognition.face_locations(frame)[0]
-            cv2.rectangle(frame,(train_faceLoc[3],train_faceLoc[0]),(train_faceLoc[1],train_faceLoc[2]),(255,255,0),2)
-            output_for_user=find_compare(regisno,frame)
-            if( output_for_user.find("Your attendance")):
-                dbname = get_database("BML")
-                collection=dbname[str(pin)]
-                item={
-                        "_id":regisno,
-                        "present":"1"
-                }
-                collection.insert_one(item)
-            status_info=output_for_user
-            print(output_for_user+ status_info)
+            if(frame):
+                train_faceLoc = face_recognition.face_locations(frame)[0]
+                cv2.rectangle(frame,(train_faceLoc[3],train_faceLoc[0]),(train_faceLoc[1],train_faceLoc[2]),(255,255,0),2)
+                output_for_user=find_compare(regisno,frame)
+                if( output_for_user.find("Your attendance")):
+                    dbname = get_database("BML")
+                    collection=dbname[str(pin)]
+                    item={
+                            "_id":regisno,
+                            "present":"1"
+                    }
+                    collection.insert_one(item)
+                # status_info=output_for_user
+                # print(output_for_user+ status_info)
 
-            # status_info=str(output_for_user)
-            # getinfo()
+                # status_info=str(output_for_user)
+                # getinfo()
+                frame=None
 
         except:
             # print("Face not recognised properly!")
             pass  # write face not recognised
             
-        try:
-            ret, buffer = cv2.imencode('.jpg', cv2.flip(frame,1))
-            frame = buffer.tobytes()
-            yield (b'--frame\r\n'
-                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-        except Exception as e:
-            pass
+        # try:
+        #     ret, buffer = cv2.imencode('.jpg', cv2.flip(frame,1))
+        #     frame = buffer.tobytes()
+        #     yield (b'--frame\r\n'
+        #             b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+        # except Exception as e:
+        #     pass
 
         
         
