@@ -71,7 +71,7 @@
                 <img id="videosrc" src="{{ url_for('video_feed') }}">
                 <form method="POST" action="{{ url_for('tasks') }}">
                     <!-- <input id="regno" type="text" placeholder="Registration number" name="regisno" required> -->
-                    <p id="info" style="color:#ffff;font-family: cursive;font-size: 1rem;width:110%">Please wait while marking your Attendence.</p>
+                    <p id="info" style="color:#ffff;font-family: cursive;font-size: 1rem;width:110%">  </p>
                     <input id="capturebtn" type="submit" value="Exit" name="click"/>
                 </form>
 
@@ -82,13 +82,13 @@
     <script>
 
 
-    var I=setInterval(update, 1000);
-    var s="Z";
+    var I=setInterval(update, 200);
+   
         function update()
         {
             // while(true)
             // {
-          
+                var s="Z";
                 fetch('/getinfo')
                 .then(data => {
                     return data.json();

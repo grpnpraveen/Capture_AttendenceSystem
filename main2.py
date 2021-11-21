@@ -23,7 +23,7 @@ def get_database(DB):
     client = MongoClient(CONNECTION_STRING)
     return client[DB]
     
-with open('train_data2.pkl', 'rb') as f:
+with open('train_data.pkl', 'rb') as f:
     train_data = pickle.load(f)
 
 
@@ -36,7 +36,7 @@ def compare_test_image(image,encoding):
     test_image_encoding = face_recognition.face_encodings(image)
     #print(test_image_encoding)
     if(len(test_image_encoding)==1):
-        result = face_recognition.compare_faces([test_image_encoding[0]],encoding,tolerance=0.5)
+        result = face_recognition.compare_faces([test_image_encoding[0]],encoding,tolerance=0.55)
         #print(result)
         if result[0]==True:
             return 1
@@ -67,12 +67,12 @@ def find_compare(number,image):
                 print("Cannot Find Face Properly, Please Try Again")
                 return("Cannot Find Face Properly, Please Try Again")
             elif (check_image == 3):
-                print("Multiple Faces Detected, Please try again")
+                print("Multiple Faces Detected, Please try again") #Handling Multiple faces can be added
                 return("Multiple Faces Detected, Please try again") #Handling Multiple faces can be added
 
     if(check_number==0):
-        print("Registration number not found")
-        return("Registration number not found")
+        print("Number not found")
+        return("Number not found")
 
 
 #make shots directory to save pics
@@ -181,7 +181,7 @@ def getinfo():
     # if request.method == 'GET':
     global status_info
     status={}
-    print("there"+str(status_info))
+    print("in getinfo"+str(status_info))
     x=str(status_info)
     status["info"]=x
     return jsonify(status)
@@ -193,33 +193,31 @@ def gen_frames():  # generate frame by frame from camera
     output_for_user=None
     while True:
         success, frame = camera.read() 
-        if success:   
-            if(capture):
-                capture=0
-                now = datetime.datetime.now()
+        # if success:   
+        #     if(capture):
+        #         capture=0
+        #         now = datetime.datetime.now()
 
-                p = os.path.sep.join(['shots', "{}.png".format(str(pin)+"_"+str(regisno).lower())])
-                cv2.imwrite(p, frame)
-                camera.release() 
+        #         p = os.path.sep.join(['shots', "{}.png".format(str(pin)+"_"+str(regisno).lower())])
+        #         cv2.imwrite(p, frame)
+        #         camera.release() 
         try:
-            if(frame):
-                train_faceLoc = face_recognition.face_locations(frame)[0]
-                cv2.rectangle(frame,(train_faceLoc[3],train_faceLoc[0]),(train_faceLoc[1],train_faceLoc[2]),(255,255,0),2)
-                output_for_user=find_compare(regisno,frame)
-                if( output_for_user.find("Your attendance")):
-                    dbname = get_database("BML")
-                    collection=dbname[str(pin)]
-                    item={
-                            "_id":regisno,
-                            "present":"1"
-                    }
-                    collection.insert_one(item)
-                # status_info=output_for_user
-                # print(output_for_user+ status_info)
-
-                # status_info=str(output_for_user)
-                # getinfo()
-                frame=None
+            train_faceLoc = face_recognition.face_locations(frame)[0]
+            cv2.rectangle(frame,(train_faceLoc[3],train_faceLoc[0]),(train_faceLoc[1],train_faceLoc[2]),(255,255,0),2)
+            output_for_user=find_compare(regisno,frame)
+            if( output_for_user.find("Your attendance")):
+                dbname = get_database("BML")
+                collection=dbname[str(pin)]
+                item={
+                        "_id":regisno,
+                        "present":"1"
+                }
+                collection.insert_one(item)
+            status_info=output_for_user
+            print(output_for_user+ status_info)
+            time.sleep(1)
+            # status_info=str(output_for_user)
+            # getinfo()
 
         except:
             # print("Face not recognised properly!")
