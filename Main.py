@@ -1,7 +1,8 @@
 import cv2
 from flask import Flask,render_template,Response,request,redirect,url_for,jsonify
 import os
-import datetime, time
+import datetime
+import time
 import numpy as np
 import face_recognition
 import pickle
@@ -220,6 +221,8 @@ def gen_frames():  # generate frame by frame from camera
                 # status_info=str(output_for_user)
                 # getinfo()
                 frame=None
+                time.sleep(10)
+                
 
         except:
             # print("Face not recognised properly!")
