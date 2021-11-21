@@ -1,7 +1,9 @@
 opencv-python
+cmake
 Flask
 numpy
 face-recognition
 dnspython
 pymongo
 gunicorn
+dlib
